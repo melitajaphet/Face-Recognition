@@ -1,16 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Oct 23 20:15:16 2020
-
-@author: Melita Japhet
-"""
-
 import face_recognition
 import os
 import cv2
 
 known_faces_dir = "known_faces"
-#unknown_faces_dir = "unknown_faces" #for image face-recognition
 tolerance = 0.45
 frame_thickness = 3
 font_thickness = 2
@@ -31,16 +23,12 @@ for name in os.listdir(known_faces_dir):
         known_names.append(name)
         
 print("processing known faces")
-#for filename in os.listdir(unknown_faces_dir): #for image face-recognition
-while True:
-    #print(filename) #for image face-recognition
-    #image = face_recognition.load_image_file(f'{unknown_faces_dir}/{filename}') #for image face-recognition
-    
+
+while True: 
     ret, image = video.read()
     
     locations = face_recognition.face_locations(image, model=MODEL)
     encodings = face_recognition.face_encodings(image,locations)
-    #image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR) #for image face-recognition
     
     for face_encoding, face_location in zip(encodings, locations):
         results = face_recognition.compare_faces(known_faces, face_encoding, tolerance)
@@ -63,7 +51,4 @@ while True:
     cv2.imshow(filename, image)
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
-    
-    #cv2.waitKey(0) #for image face-recognition
-    #cv2.destroyWindow(filename) #for image face-recognition
             
